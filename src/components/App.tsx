@@ -1,10 +1,8 @@
 import { useCallback, useRef, useState } from 'react'
 import { FiGlobe } from 'react-icons/fi'
-import { SupportedLocale, SUPPORTED_LOCALES, SwapWidget } from '@uniswap/widgets'
+import { SupportedLocale, SUPPORTED_LOCALES, SwapWidget,darkTheme, lightTheme, Theme } from '@uniswap/widgets'
 
-// ↓↓↓ Don't forget to import the widgets' fonts! ↓↓↓
 import '@uniswap/widgets/fonts.css'
-// ↑↑↑
 
 import { useActiveProvider } from '../connectors'
 import { JSON_RPC_URL } from '../constants'
@@ -13,62 +11,81 @@ import Web3Connectors from './Web3Connectors'
 import styles from '../styles/Home.module.css'
 
 const TOKEN_LIST = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
-const UNI = '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984'
+const GODZ = '0x1068a889fd7151fb2ca9d98d268b0d0cd623fc2f'
+const MY_TOKEN_LIST = [
+  {
+  "name": "Dai Stablecoin",
+  "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+  "symbol": "DAI",
+  "decimals": 18,
+  "chainId": 1,
+  "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png"
+},
+  {
+  "name": "Tether USD",
+  "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+  "symbol": "USDT",
+  "decimals": 6,
+  "chainId": 1,
+  "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png"
+},
+{
+  "name": "USD Coin",
+  "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  "symbol": "USDC",
+  "decimals": 6,
+  "chainId": 1,
+  "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png"
+},
+{
+  "name": "Godzilla Coin",
+  "address": "0x1068a889fd7151fb2ca9d98d268b0d0cd623fc2f",
+  "symbol": "GODZ",
+  "decimals": 6,
+  "chainId": 1,
+  "logoURI": "https://kenhcine.cgv.vn/media/catalog/product/c/g/cgv_godzilla.jpg"
+},
+]
+
 
 export default function App() {
   // When a user clicks "Connect your wallet" in the SwapWidget, this callback focuses the connectors.
   const connectors = useRef<HTMLDivElement>(null)
   const focusConnectors = useCallback(() => connectors.current?.focus(), [])
-
-  // The provider to pass to the SwapWidget.
-  // This is a Web3Provider (from @ethersproject) supplied by @web3-react; see ./connectors.ts.
-  const provider = useActiveProvider()
-
-  // The locale to pass to the SwapWidget.
-  // This is a value from the SUPPORTED_LOCALES exported by @uniswap/widgets.
   const [locale, setLocale] = useState<SupportedLocale>('en-US')
   const onSelectLocale = useCallback((e) => setLocale(e.target.value), [])
-
+  const myLightTheme: Theme = {
+    ...lightTheme, // Extend the lightTheme
+    accent: '#FF007A',
+    primary: '#000000',
+    secondary: '#565A69',
+  }
+  
+  const myDarkTheme: Theme = {
+    ...darkTheme, // Extend the darkTheme
+    accent: '#FD5B00',
+    primary: '#FFFFFF',
+    secondary: '#888D9B',
+  }
+  let darkMode = true
   return (
     <div className={styles.container}>
-      <div className={styles.i18n}>
-        <label style={{ display: 'flex' }}>
-          <FiGlobe />
-        </label>
-        <select onChange={onSelectLocale}>
-          {SUPPORTED_LOCALES.map((locale) => (
-            <option key={locale} value={locale}>
-              {locale}
-            </option>
-          ))}
-        </select>
-      </div>
-
       <main className={styles.main}>
-        <h1 className={styles.title}>Uniswap Swap Widget</h1>
-
         <div className={styles.demo}>
-          <div className={styles.connectors} ref={connectors} tabIndex={-1}>
-            <Web3Connectors />
-          </div>
-
           <div className={styles.widget}>
             <SwapWidget
               jsonRpcEndpoint={JSON_RPC_URL}
-              tokenList={TOKEN_LIST}
-              provider={provider}
+              width="100%"
+              tokenList={MY_TOKEN_LIST}
               locale={locale}
               onConnectWallet={focusConnectors}
               defaultInputTokenAddress="NATIVE"
               defaultInputAmount="1"
-              defaultOutputTokenAddress={UNI}
+              theme={darkMode ? myDarkTheme : myLightTheme} 
+              defaultOutputTokenAddress={GODZ}
             />
           </div>
         </div>
-
-        <hr className={styles.rule} />
-
-       
       </main>
     </div>
   )
