@@ -68,7 +68,7 @@ export default function App() {
 
         <hr className={styles.rule} />
 
-        <DocumentationCards />
+       
       </main>
     </div>
   )
