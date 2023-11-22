@@ -11,7 +11,7 @@ import Web3Connectors from './Web3Connectors'
 import styles from '../styles/Home.module.css'
 
 const TOKEN_LIST = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
-const GODZ = '0x1068a889fd7151fb2ca9d98d268b0d0cd623fc2f'
+const WEB3 = '0x973d1e72f2bd7fbbf139155c69752b32dd333333'
 const MY_TOKEN_LIST = [
   {
   "name": "Dai Stablecoin",
@@ -44,6 +44,14 @@ const MY_TOKEN_LIST = [
   "decimals": 6,
   "chainId": 1,
   "logoURI": "https://kenhcine.cgv.vn/media/catalog/product/c/g/cgv_godzilla.jpg"
+},
+{
+  "name": "Web3 AI Coin",
+  "address": "0x973d1e72f2bd7fbbf139155c69752b32dd333333",
+  "symbol": "WEB3",
+  "decimals": 6,
+  "chainId": 1,
+  "logoURI": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR_LAiyp-URv7d8XIhuauuQWMk1IN20IyWLg&usqp=CAU"
 },
 ]
 
@@ -80,9 +88,9 @@ export default function App() {
               locale={locale}
               onConnectWallet={focusConnectors}
               defaultInputTokenAddress="NATIVE"
-              defaultInputAmount="1"
+              defaultInputAmount="0"
               theme={darkMode ? myDarkTheme : myLightTheme} 
-              defaultOutputTokenAddress={GODZ}
+              defaultOutputTokenAddress={WEB3}
             />
           </div>
         </div>
